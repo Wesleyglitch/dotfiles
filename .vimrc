@@ -1,5 +1,40 @@
+" ativar sintaxe colorida
 syntax on
 
+" ativar indentação automática
+set autoindent
+
+" ativa indentação inteligente, o Vim tentará adivinhar
+" qual é a melhor indentação para o código quando você
+" efetuar quebra de linha. Funciona bem para linguagem C
+set smartindent
+
+" ativar numeração de linha
+set number
+
+" destaca a linha em que o cursor está posicionado
+set cursorline
+
+" ativa o clique do mouse para navegação pelos documentos
+set mouse=a
+
+" ativa o compartilhamento de área de transferência entre o Vim
+" e a interface gráfica
+set clipboard=unnamedplus
+
+" converte o tab em espaços em branco
+" ao teclar tab o Vim irá substutuir por 2 espaços
+set tabstop=2 softtabstop=2 expandtab shiftwidth=2
+
+" ao teclar a barra de espaço no modo normal, o Vim
+" irá colapsar ou expandir o bloco de código do cursor
+" foldlevel é a partir de que nível de indentação o
+" código iniciará colapsado
+set foldmethod=syntax
+set foldlevel=99
+nnoremap <space> za
+
+" Disable vi compatibility
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -12,38 +47,88 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" Vim airlines
+" Vim Airlines (barra de status e buffer)
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 
-" Auto pairs
+"Syntastic
+Plugin 'Syntastic'
+
+" IndentLine (linhas no \t)
+Plugin 'Yggdroot/indentLine'
+
+" Vim rainbow
+Plugin 'frazrepo/vim-rainbow'
+
+"Auto pairs
 Plugin 'jiangmiao/auto-pairs'
 
 " NERDtree (gerenciador de arquivos)
 Plugin 'preservim/nerdtree'
 
 " Vim-markdown (preview de texto em markdown)
-Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
 Plugin 'iamcco/mathjax-support-for-mkdp'
 Plugin 'iamcco/markdown-preview.vim'
 
+" Pywal theme
+Plugin 'dylanaraps/wal.vim'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+" Emmet (Ctrl+y+, para deixar a linha selecionada entre tags) Domine o Emmet
+" quando for aprender HTML5
+Plugin 'mattn/emmet-vim'
 
+" NERDcommenter (comentar linhas de código)
+Plugin 'preservim/nerdcommenter'
+
+" Vim devicons (ícones para o VIM)
+Plugin 'ryanoasis/vim-devicons'
+
+" ALE (correção de código)
+Plugin 'dense-analysis/ale'
+
+call vundle#end()
+filetype plugin indent on
+
+" Vim Rainbow Active
+let g:rainbow_active = 1
+
+" MarkdownPreviewBrowser
 let g:mkdp_browser = 'firefox'
+let g:airline#extensions#tabline#enabled = 1
 
+" (CTRL-N) open nerd tree
+map <C-n> :NERDTreeToggle<cr>
+set encoding=utf8
 
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+set laststatus=2
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+let g:airline_statusline_ontop=0
+let g:airline_theme='minimalist'
+
+let g:airline#extensions#tabline#formatter = 'default'
+" navegação entre os buffers
+nnoremap <M-Right> :bn<cr>
+nnoremap <M-Left> :bp<cr>
+nnoremap <c-x> :bp\|bd #<cr>
+
+" IndentLine config (Ctrl+k+i para ativar/desativar)
+let g:indentLine_enabled = 1
+map <c-k>i :IndentLinesToggle<cr>
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" NERDcommenter config
+let g:NERDSpaceDelims = 1
+let g:NERDDefaultAlign = 'left'
+map cc <Plug>NERDCommenterInvert
+
+set guifont=Anonymice\ Nerd\ Font:h12
+filetype plugin on
